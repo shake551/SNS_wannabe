@@ -6,16 +6,27 @@ from django.db.models import QuerySet
 from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.db.models import Q
+from django.db.models import Count, Sum, Avg, Min, Max
 
 from .forms import FriendForm
 from .models import Friend
 from .forms import FindForm
 
 def index(request):
-    data = Friend.objects.all().order_by('age').reverse()
+    data = Friend.objects.all()
+    re1 = Friend.objects.aggregate(Count('age'))
+    re2 = Friend.objects.aggregate(Sum('age'))
+    re3 = Friend.objects.aggregate(Avg('age'))
+    re4 = Friend.objects.aggregate(Min('age'))
+    re5 = Friend.objects.aggregate(Max('age'))
+    msg = 'count:' + str(re1['age__count']) \
+        + '<br>Sum:' + str(re2['age__sum']) \
+        + '<br>Average:' + str(re3['age__avg']) \
+        + '<br>Min:' + str(re4['age__min']) \
+        + '<br>Max:' + str(re5['age__max'])
     params = {
         'title': 'Hello',
-        'message': '',
+        'message': msg,
         'data': data,
     }
     return render(request, 'hello/index.html', params)
@@ -66,11 +77,13 @@ class FriendDetail(DetailView):
 
 def find(request):
     if (request.method == 'POST'):
-        msg = 'search result:'
+        msg = request.POST['find']
         form = FindForm(request.POST)
-        find = request.POST['find']
-        list = find.split()
-        data = Friend.objects.filter(name__in=list)
+        sql = 'select * from hello_friend'
+        if (msg != ''):
+            sql += ' where ' + msg
+        data = Friend.objects.raw(sql)
+        msg = sql
     else:
         msg = 'search words...'
         form = FindForm()

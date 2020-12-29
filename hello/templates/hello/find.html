@@ -23,12 +23,14 @@
             <th>id</th>
             <th>name</th>
             <th>mail</th>
+            <th>birthday</th>
         </tr>
         {% for item in data %}
         <tr>
             <th>{{item.id}}</th>
             <td>{{item.name}}({{item.age}})</td>
             <td>{{item.mail}}</td>
+            <td>{{item.birthday}}</td>
         </tr>
         {% endfor %}
     </table>
