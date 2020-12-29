@@ -8,22 +8,18 @@
     crossorigin="anonymous">
 </head>
 <body class="container">
-    <h1 class="display-4 text-primary">{{title}}</h1>
+    <h1 class="display-4 text-primary">Friends List</h1>
     <table class="table">
         <tr>
             <th>id</th>
             <th>name</th>
-            <th>age</th>
-            <th>mail</th>
-            <th>birthday</th>
+            <th></th>
         </tr>
-    {% for item in data %}
+    {% for item in object_list %}
         <tr>
-            <td>{{item.id}}</td>
+            <th>{{item.id}}</th>
             <td>{{item.name}}</td>
-            <td>{{item.age}}</td>
-            <td>{{item.mail}}</td>
-            <td>{{item.birthday}}</td>
+            <td><a href="/hello/detail/{{item.id}}">detail</a></td>
         </tr>
     {% endfor %}
     </table>

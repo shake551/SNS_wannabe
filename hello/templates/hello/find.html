@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+   <meta charset="UTF-8">
+   <title>{{title}}</title>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+   crossorigin="anonymous">
+</head>
+<body class="container">
+    <h1 class="display-4 text-primary">{{title}}</h1>
+    <p>{{message|safe}}</p>
+    <form action="{% url 'find' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <tr><th></th><td>
+            <input type="submit" value="click" class="btn btn-primary mt-2">
+        </td></tr>
+    </form>
+    <hr>
+    <table class="table">
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>mail</th>
+        </tr>
+        {% for item in data %}
+        <tr>
+            <th>{{item.id}}</th>
+            <td>{{item.name}}({{item.age}})</td>
+            <td>{{item.mail}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

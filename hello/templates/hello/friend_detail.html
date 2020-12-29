@@ -8,24 +8,28 @@
     crossorigin="anonymous">
 </head>
 <body class="container">
-    <h1 class="display-4 text-primary">{{title}}</h1>
+    <h1 class="display-4 text-primary">Friends List</h1>
     <table class="table">
         <tr>
             <th>id</th>
-            <th>name</th>
-            <th>age</th>
-            <th>mail</th>
-            <th>birthday</th>
+            <th>{{object.id}}</th>
         </tr>
-    {% for item in data %}
         <tr>
-            <td>{{item.id}}</td>
-            <td>{{item.name}}</td>
-            <td>{{item.age}}</td>
-            <td>{{item.mail}}</td>
-            <td>{{item.birthday}}</td>
+            <th>name</th>
+            <th>{{object.name}}</th>
         </tr>
-    {% endfor %}
+        <tr>
+            <th>mail</th>
+            <th>{{object.mail}}</th>
+        </tr>
+        <tr>
+            <th>gender</th>
+            <th>{{object.gender}}</th>
+        </tr>
+        <tr>
+            <th>age</th>
+            <td>{{object.age}}</td>
+        </tr>
     </table>
 </body>
 </html>
