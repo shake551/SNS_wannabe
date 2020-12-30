@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    crossorigin="anonymous">
+</head>
+<body class="container">
+    <h1 class="display-4 text-primary">{{title}}</h1>
+    <p>{{message|safe}}</p>
+    <ol class="list-group mb-4">
+        {% for item in form %}
+        <li class="list-group-item py-2">{{ item.name }} ({{ item.value }})
+            :{{ item.errors.as_text }}
+        </li>
+        {% endfor %}
+    </ol>
+    <table class="table mt-4">
+        <form action="{% url 'check' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">名前{{ form.name }}</div>
+        <div class="form-group">メール{{ form.mail }}</div>
+        <div class="form-group">性別{{ form.gender }}</div>
+        <div class="form-group">年齢{{ form.age }}</div>
+        <div class="form-group">誕生日{{ form.birthday }}</div>
+        <div class="form-group">
+            <input type="submit" value="click" class="btn btn-primary">
+        </div>
+        </form>
+    </table>
+</body>
+</html>
