@@ -7,28 +7,20 @@ from django.views.generic import ListView
 from django.views.generic import DetailView
 from django.db.models import Q
 from django.db.models import Count, Sum, Avg, Min, Max
+from django.core.paginator import Paginator
 
 from .forms import FriendForm
 from .models import Friend
 from .forms import FindForm
 from .forms import CheckForm
 
-def index(request):
+def index(request, num=1):
     data = Friend.objects.all()
-    re1 = Friend.objects.aggregate(Count('age'))
-    re2 = Friend.objects.aggregate(Sum('age'))
-    re3 = Friend.objects.aggregate(Avg('age'))
-    re4 = Friend.objects.aggregate(Min('age'))
-    re5 = Friend.objects.aggregate(Max('age'))
-    msg = 'count:' + str(re1['age__count']) \
-        + '<br>Sum:' + str(re2['age__sum']) \
-        + '<br>Average:' + str(re3['age__avg']) \
-        + '<br>Min:' + str(re4['age__min']) \
-        + '<br>Max:' + str(re5['age__max'])
+    page = Paginator(data, 3)
     params = {
         'title': 'Hello',
-        'message': msg,
-        'data': data,
+        'message': '',
+        'data': page.get_page(num),
     }
     return render(request, 'hello/index.html', params)
 
