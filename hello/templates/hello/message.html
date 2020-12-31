@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    crossorigin="anonymous">
+</head>
+<body class="container">
+    <h1 class="display-4 text-primary">{{title}}</h1>
+    <form action="{{% url 'message' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="send" class="btn btn-primary">
+        <div class="mt-5"></div>
+        <table class="table">
+            <tr>
+                <th class="py-1">title</th>
+                <th class="py-1">name</th>
+                <th class="py-1">datetime</th>
+            </tr>
+            {% for item in data %}
+            <tr>
+                <td class="py-2">{{item.title}}</td>
+                <td class="py-2">{{item.friend.name}}</td>
+                <td class="py-2">{{item.pub_date}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <ul class="pagination justify-content-center">
+            {% if data.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'message' %}">&laquo; first</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="{% url 'message' %}{{data.previous_page_number}}">&laquo; preb</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link">&laquo; first</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link">&laquo; preb</a>
+            </li>
+            {% endif %}
+            <li class="page-item">
+                <a class="page-link">{{data.number}}/{{data.paginator.num_pages}}</a>
+            </li>
+            {% if data.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'message' %}{{data.next_page_number}}">next &raquo;</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="{% url 'message' %}{{data.paginator.num_pages}}">last &raquo;</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link">next &raquo;</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link">last &raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </form>
+</body>
+</html>
