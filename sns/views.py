@@ -172,7 +172,7 @@ def post(request):
         gr_name = request.POST['groups']
         content = request.POST['content']
         # Groupの取得
-        group = Group.objectsfilter(owner=request.user) \
+        group = Group.objects.filter(owner=request.user) \
             .filter(title=gr_name).first()
         if group == None:
             (pub_user, group) = get_public()

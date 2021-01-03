@@ -72,7 +72,7 @@ class PostForm(forms.Form):
         super(PostForm, self).__init__(*args, **kwargs)
         public = User.objects.filter(username='public').first()
         self.fields['groups'] = forms.ChoiceField(
-            choices=[('-','-')] + + [(item.title, item.title) \
+            choices=[('-','-')] + [(item.title, item.title) \
                 for item in Group.objects.filter(owner__in=[user,public])],
                 widget=forms.Select(attrs={'class':'form-control'}),
         )
